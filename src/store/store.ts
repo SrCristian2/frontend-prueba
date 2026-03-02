@@ -10,6 +10,7 @@ export const store = configureStore({
     product: productReducer,
     checkout: checkoutReducer,
   },
+  devTools: import.meta.env.DEV,
   ...(preloadedState && { preloadedState }),
 });
 

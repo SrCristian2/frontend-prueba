@@ -67,10 +67,12 @@ export const processPayment = createAsyncThunk(
 
       const customer = state.checkout.customer;
 
+      if (!customer?.email) throw new Error("Customer email is required");
+
       const transaction = await checkoutAPI.createTransaction({
         productId: product.id,
         customerName: payload.cardHolder,
-        customerEmail: customer?.email ?? payload.cardHolder,
+        customerEmail: customer.email,
       });
 
       const result = await checkoutAPI.processPayment(
@@ -92,8 +94,9 @@ export const processPayment = createAsyncThunk(
       }
 
       return result.status;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Payment processing failed";
+      return rejectWithValue(message);
     }
   },
 );

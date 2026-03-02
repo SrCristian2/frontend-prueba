@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { selectCheckoutStep } from "./selectors";
 import { selectSelectedProduct } from "../product/selectors";
+import { useAppSelector } from "../../store/hooks";
 
 import StepCardDelivery from "./components/StepCardDelivery";
 import StepSummary from "./components/StepSummary";
@@ -14,8 +14,8 @@ import styles from "./CheckoutFlow.module.scss";
 import { CheckoutProvider } from "./CheckoutContext";
 
 const CheckoutFlow = () => {
-  const step = useSelector(selectCheckoutStep);
-  const selectedProduct = useSelector(selectSelectedProduct);
+  const step = useAppSelector(selectCheckoutStep);
+  const selectedProduct = useAppSelector(selectSelectedProduct);
   const navigate = useNavigate();
 
   useEffect(() => {

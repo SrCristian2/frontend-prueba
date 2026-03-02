@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
 import { selectSelectedProduct } from "../../product/selectors";
-import { processPayment } from "../checkoutSlice";
+import { processPayment, setStep } from "../checkoutSlice";
 import { formatPrice } from "../../product/utils/formatPrice";
 import styles from "./StepSummary.module.scss";
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useCheckoutContext } from "../CheckoutContext";
 
 const BASE_FEE = 2000;
@@ -12,13 +11,16 @@ const DELIVERY_FEE = 5000;
 const StepSummary = () => {
   const dispatch = useAppDispatch();
   const { cardData } = useCheckoutContext();
-  const product = useSelector(selectSelectedProduct);
+  const product = useAppSelector(selectSelectedProduct);
+  const checkoutStatus = useAppSelector((state) => state.checkout.status);
+  const isProcessing = checkoutStatus === "processing";
 
   if (!product || !cardData) return null;
 
   const total = product.price + BASE_FEE + DELIVERY_FEE;
 
   const handleConfirm = () => {
+    if (isProcessing) return;
     dispatch(
       processPayment({
         fullNumber: cardData.fullNumber,
@@ -53,9 +55,22 @@ const StepSummary = () => {
         <span>{formatPrice(total)}</span>
       </div>
 
-      <button onClick={handleConfirm} className={styles.summary__button}>
-        Confirm Payment
-      </button>
+      <div className={styles.summary__actions}>
+        <button
+          onClick={() => dispatch(setStep(1))}
+          className={styles.summary__back}
+        >
+          Back
+        </button>
+        <button
+          onClick={handleConfirm}
+          className={styles.summary__button}
+          disabled={isProcessing}
+          aria-busy={isProcessing}
+        >
+          {isProcessing ? "Processing..." : "Confirm Payment"}
+        </button>
+      </div>
     </div>
   );
 };

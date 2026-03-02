@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
 import { selectCheckoutStatus } from "../selectors";
 import { resetCheckout } from "../checkoutSlice";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useCheckoutContext } from "../CheckoutContext";
 import { fetchProducts } from "../../product/productSlice";
 import { clearPersistedState } from "../../../store/persistence";
@@ -10,7 +9,7 @@ import { clearFormDraft } from "./StepCardDelivery";
 import styles from "./StepResult.module.scss";
 
 const StepResult = () => {
-  const status = useSelector(selectCheckoutStatus);
+  const status = useAppSelector(selectCheckoutStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { setCardData } = useCheckoutContext();

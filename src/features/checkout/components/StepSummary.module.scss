@@ -72,9 +72,40 @@
     }
   }
 
-  &__button {
+  &__actions {
+    display: flex;
+    gap: $spacing-md;
     margin-top: $spacing-lg;
-    width: 100%;
+  }
+
+  &__back {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    background: $color-white;
+    color: $color-text-dark;
+    font-family: $font-family;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-md;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+
+    transition:
+      background $transition-fast,
+      border-color $transition-fast;
+
+    &:hover {
+      background: $color-bg-light;
+      border-color: $color-text-light;
+    }
+  }
+
+  &__button {
+    flex: 1;
+    margin-top: 0;
+    width: auto;
     padding: 10px 14px;
     border: none;
     border-radius: $border-radius;

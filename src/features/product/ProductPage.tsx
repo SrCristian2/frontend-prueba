@@ -1,17 +1,16 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, selectProduct } from "./productSlice";
 import { selectProducts, selectProductStatus } from "./selectors";
 import ProductList from "./components/ProductList";
-import type { AppDispatch } from "../../store/store";
 import styles from "./ProductPage.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const ProductPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector(selectProducts);
-  const status = useSelector(selectProductStatus);
+  const dispatch = useAppDispatch();
+  const products = useAppSelector(selectProducts);
+  const status = useAppSelector(selectProductStatus);
 
   useEffect(() => {
     dispatch(fetchProducts());
