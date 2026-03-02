@@ -1,4 +1,5 @@
 import type { Product } from "../type";
+import { formatPrice } from "../utils/formatPrice";
 import styles from "./ProductCard.module.scss";
 
 interface Props {
@@ -19,7 +20,7 @@ const ProductCard = ({ product, onSelect }: Props) => {
 
       <h3 className={styles.card__name}>{product.name}</h3>
       <p className={styles.card__description}>{product.description}</p>
-      <p className={styles.card__price}>${product.price}</p>
+      <p className={styles.card__price}>{formatPrice(product.price)}</p>
       <p className={styles.card__stock}>Stock: {product.stock}</p>
 
       <button

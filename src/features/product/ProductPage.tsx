@@ -5,8 +5,10 @@ import { selectProducts, selectProductStatus } from "./selectors";
 import ProductList from "./components/ProductList";
 import type { AppDispatch } from "../../store/store";
 import styles from "./ProductPage.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const ProductPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts);
   const status = useSelector(selectProductStatus);
@@ -59,7 +61,10 @@ const ProductPage = () => {
         <div className={styles.page__grid}>
           <ProductList
             products={products}
-            onSelect={(product) => dispatch(selectProduct(product))}
+            onSelect={(product) => {
+              dispatch(selectProduct(product));
+              navigate("/checkout");
+            }}
           />
         </div>
       )}
