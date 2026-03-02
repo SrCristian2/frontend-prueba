@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: $spacing-xl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 640px) {
+    padding: $spacing-2xl;
+  }
+
+  @media (min-width: 1024px) {
+    padding: $spacing-3xl;
+  }
+}
