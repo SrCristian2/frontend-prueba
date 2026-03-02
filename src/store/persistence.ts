@@ -24,13 +24,21 @@ export function loadPersistedState():
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return undefined;
-    const parsed: PersistedState = JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+
+    if (!parsed || typeof parsed !== "object") return undefined;
+    if (!parsed.checkout || typeof parsed.checkout !== "object") return undefined;
+
+    const validSteps = [1, 2, 3, 4];
+    const validStatuses = ["idle", "processing", "success", "failed"];
+    if (!validSteps.includes(parsed.checkout.step)) return undefined;
+    if (!validStatuses.includes(parsed.checkout.status)) return undefined;
 
     return {
-      checkout: parsed.checkout,
+      checkout: parsed.checkout as PersistedState["checkout"],
       product: {
-        items: [],
-        status: "idle",
+        items: [] as [],
+        status: "idle" as const,
         selectedProduct: parsed.product?.selectedProduct ?? null,
       },
     };

@@ -149,10 +149,14 @@ const StepCardDelivery = () => {
           <input
             className={styles.form__input}
             placeholder="Card Number"
+            inputMode="numeric"
+            autoComplete="cc-number"
             {...register("cardNumber")}
-            onChange={(e) =>
-              setValue("cardNumber", formatCardNumber(e.target.value))
-            }
+            onChange={(e) => {
+              const formatted = formatCardNumber(e.target.value);
+              setValue("cardNumber", formatted, { shouldValidate: true });
+            }}
+            maxLength={19}
           />
 
           {brand === "visa" && (
@@ -181,6 +185,8 @@ const StepCardDelivery = () => {
         <input
           className={styles.form__input}
           placeholder="MM/YY"
+          autoComplete="cc-exp"
+          inputMode="numeric"
           {...register("expiry")}
         />
         {errors.expiry && (
@@ -192,6 +198,10 @@ const StepCardDelivery = () => {
         <input
           className={styles.form__input}
           placeholder="CVV"
+          type="password"
+          inputMode="numeric"
+          autoComplete="cc-csc"
+          maxLength={4}
           {...register("cvv")}
         />
         {errors.cvv && (
@@ -203,6 +213,7 @@ const StepCardDelivery = () => {
         <input
           className={styles.form__input}
           placeholder="Card Holder Name"
+          autoComplete="cc-name"
           {...register("cardHolder")}
         />
         {errors.cardHolder && (

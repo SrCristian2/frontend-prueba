@@ -10,11 +10,13 @@ interface Props {
 const ProductCard = ({ product, onSelect }: Props) => {
   return (
     <div className={styles.card}>
-      {product.imageUrl && (
+      {product.imageUrl && product.imageUrl.startsWith("https://") && (
         <img
           src={product.imageUrl}
           alt={product.name}
           className={styles.card__image}
+          loading="lazy"
+          referrerPolicy="no-referrer"
         />
       )}
 
