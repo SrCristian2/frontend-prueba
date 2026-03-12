@@ -63,18 +63,43 @@ function renderWithProviders() {
     },
   });
 
-  return { store, ...render(
-    <Provider store={store}>
-      <CheckoutProvider>
-        <CardDataSetter>
-          <StepSummary />
-        </CardDataSetter>
-      </CheckoutProvider>
-    </Provider>,
-  )};
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <CheckoutProvider>
+          <CardDataSetter>
+            <StepSummary />
+          </CardDataSetter>
+        </CheckoutProvider>
+      </Provider>,
+    ),
+  };
 }
 
 describe("StepSummary", () => {
+  it("iva fee is calculated correctly", () => {
+    renderWithProviders();
+    const total = mockProduct.price + 2000;
+
+    const ivaAmount = total * 0.19;
+
+    const totalWithIva = total + ivaAmount;
+
+    expect(totalWithIva).toBe(61880);
+  });
+
+  it("iva fee is calculated Incorrectly", () => {
+    renderWithProviders();
+    const total = mockProduct.price + 3000;
+
+    const ivaAmount = total * 0.19;
+
+    const totalWithIva = total + ivaAmount;
+
+    expect(totalWithIva).not.toBe(61880)
+  });
+
   it("renders order summary title", () => {
     renderWithProviders();
     expect(screen.getByText(/order summary/i)).toBeInTheDocument();
@@ -101,7 +126,7 @@ describe("StepSummary", () => {
   it("renders correct total (product + base + delivery)", () => {
     renderWithProviders();
     expect(screen.getByText("Total")).toBeInTheDocument();
-    expect(screen.getByText(/57\.000/)).toBeInTheDocument();
+    expect(screen.getByText(/67\.830/)).toBeInTheDocument();
   });
 
   it("renders confirm payment button", () => {

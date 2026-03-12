@@ -7,6 +7,7 @@ import { useCheckoutContext } from "../CheckoutContext";
 
 const BASE_FEE = 2000;
 const DELIVERY_FEE = 5000;
+const IVA_FEE = 0.19;
 
 const StepSummary = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +19,10 @@ const StepSummary = () => {
   if (!product || !cardData) return null;
 
   const total = product.price + BASE_FEE + DELIVERY_FEE;
+
+  const ivaAmount = total * IVA_FEE;
+
+  const totalWithIva = total + total * IVA_FEE;
 
   const handleConfirm = () => {
     if (isProcessing) return;
@@ -49,10 +54,14 @@ const StepSummary = () => {
         <span>Delivery</span>
         <span>{formatPrice(DELIVERY_FEE)}</span>
       </div>
+      <div className={styles.summary__row}>
+        <span>Iva Fee</span>
+        <span>{formatPrice(ivaAmount)}</span>
+      </div>
 
       <div className={styles.summary__total}>
         <span>Total</span>
-        <span>{formatPrice(total)}</span>
+        <span>{formatPrice(totalWithIva)}</span>
       </div>
 
       <div className={styles.summary__actions}>
